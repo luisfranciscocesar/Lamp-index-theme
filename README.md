@@ -1,7 +1,31 @@
 ### TEMA PARA LAMP SERVER
 
-#### VERSION : 
+#### PROXIMA VERSIÓN:
+
+* Futuras características:
+	- Se agregar un buscador las extensiones y modulos.
+	- Poder visualizar las funciones que tiene cada extensión.
+	- Otras características interesantes.
+
+#### VERSIÓN : 
+**v0.2**
+
+- Visualizar los proyectos.
+- Ver phpinfo().
+- Ver phpmyadmin.
+* Nuevas caracteristicas:
+	- Se agrego poder ver las extensiones, versión y su estado.
+	- Se agrego poder ver los modulos y su estado.
+
+* Cambios:
+	- se modifico el menu
+	- se un poco el index ( nav y footer).
+
 **v0.1**
+
+- Visualizar los proyectos.
+- Ver phpinfo().
+- Ver phpmyadmin.
 
 #### CAPTURA DE PANTALLA
 ![captura](https://github.com/luisfranciscocesar/Lamp-index-theme/blob/master/lamp.png?raw=true  "Captura de pantalla")

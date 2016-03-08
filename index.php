@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<?php
+if (($_GET['m']==4))
+{
+  phpinfo();
+  exit();
+}
+?>
 <html lang="en">
 
 <head>
@@ -78,13 +85,26 @@
               <ul class="nav side-menu">
                 <li><a href="index.php"><i class="fa fa-rocket"></i> PROYECTOS </a>
                 </li>
-                <li><a target="_blank" href="http://localhost/phpmyadmin/"><i class="fa fa-database"></i> PHPMYADMIN </a>
+              </ul>
+            </div>
+            <div class="menu_section">
+              <h3>PHP</h3>
+              <ul class="nav side-menu">
+                <li><a href="index.php?m=2"><i class="fa fa-indent"></i> EXTENSIONES </a>
                 </li>
-                <li><a target="_blank" href="info.php"><i class="fa fa-info"></i> INFO PHP </a>
+                <li><a href="index.php?m=3"><i class="fa fa-list-alt"></i> MODULOS </a>
+                </li>
+                <li><a target="_blank" href="index.php?m=4"><i class="fa fa-info"></i> INFO PHP </a>
                 </li>
               </ul>
             </div>
-
+            <div class="menu_section">
+              <h3>MYSQL</h3>
+              <ul class="nav side-menu">
+                <li><a target="_blank" href="http://localhost/phpmyadmin/"><i class="fa fa-database"></i> PHPMYADMIN </a>
+                </li>
+              </ul>
+            </div>
           </div>
           <!-- /sidebar menu -->
 
@@ -120,13 +140,10 @@
             <ul class="nav navbar-nav navbar-right">
               <li class="">
                 <a class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                 Lamp Server corriendo en
-                   <?php
-                   echo php_uname('s');
-                   ?> -
-                   <?php
-                    echo php_uname('r');
-                   ?>
+                  <?php
+                      $version = apache_get_version();
+                      echo "$version\n";
+                  ?>
                 </a>
               </li>
 
@@ -136,11 +153,15 @@
 
       </div>
       <!-- /top navigation -->
-
       <!-- page content -->
       <div class="filemanager"> <!-- filemanager -->
           <div class="right_col" role="main">
+            <!-- content GET INIT -->
+            <?php
 
+                if (($_GET['m']!=2) && ($_GET['m'])!=3)
+                {
+            ?>
             <div class="">
               <div class="page-title">
                 <div class="title_left">
@@ -192,15 +213,158 @@
                 </div>
               </div>
             </div>
+            <?php
+
+                }
+            ?>
+            <!-- content GET END-->
+
+            <!-- content GET EXTENDS INIT -->
+            <?php
+                if (($_GET['m']==2))
+                {
+                  $extensions = get_loaded_extensions();
+            ?>
+            <div class="">
+              <div class="page-title">
+                <div class="title_left">
+                  <h3>Extensiones</h3>
+                </div>
+
+                <div class="title_right">
+                  <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="x_panel">
+
+                    <div class="x_content">
+
+
+                            <!-- start project list -->
+                            <table class="table table-striped projects">
+                              <thead>
+                                <tr>
+                                  <th style="width: 20%">Nombre</th>
+                                  <th>Versión</th>
+                                  <th>Estado</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php
+                                foreach($extensions as $extension){
+
+                                  if (extension_loaded($extension)) {
+                                      $ext = new ReflectionExtension($extension);
+                                      $version = phpversion($extension);
+
+                                      echo "<tr><td>$extension</td><td>$version</td><td><span class='label label-success'>Success</span></td></tr>";
+                                  }else{
+                                      echo "<tr><td>$extension</td><td>$version</td><td><span class='label label-danger'>Failed</span></td></tr>";
+                                  }
+
+                                }
+                                ?>
+                              </tbody>
+                            </table>
+                            <!-- end project list -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <?php
+
+                }
+            ?>
+            <!-- content GET EXTENDS END-->
+
+            <!-- content GET MODULES INIT -->
+            <?php
+                if (($_GET['m'])==3)
+                {
+                  $modules = apache_get_modules();
+            ?>
+            <div class="">
+              <div class="page-title">
+                <div class="title_left">
+                  <h3>Modulos</h3>
+                </div>
+
+                <div class="title_right">
+                  <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="x_panel">
+
+                    <div class="x_content">
+
+
+                            <!-- start project list -->
+                            <table class="table table-striped projects">
+                              <thead>
+                                <tr>
+                                  <th style="width: 15%">Nombre</th>
+                                  <th>Estado</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php
+
+                                function apache_module_exists($module){
+                                    return in_array($module, apache_get_modules());
+                                }
+
+                                foreach($modules as $module){
+
+                                  if ($module==apache_module_exists($module)) {
+                                      echo "<tr><td>$module</td><td><span class='label label-success'>Success</span></td></tr>";
+                                  }else{
+                                    echo "<tr><td>$module</td><td><span class='label label-danger'>Failed</span></td></tr>";
+                                  }
+
+                                }
+                                ?>
+                              </tbody>
+                            </table>
+                            <!-- end project list -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <?php
+
+                }
+            ?>
+            <!-- content GET MODULES END-->
 
             <!-- footer content -->
             <footer>
               <div class="copyright-info">
                 <p class="pull-right">
-                  <?php
-                      $version = apache_get_version();
-                      echo "$version\n";
-                  ?>
+                  Lamp server corriendo bajo
+                    <?php
+                    echo php_uname('s');
+                    ?> -
+                    <?php
+                     echo php_uname('r');
+                    ?>
                 </p>
               </div>
               <div class="clearfix"></div>
@@ -209,7 +373,6 @@
 
           </div>
         </div><!-- filemanager -->
-
       <!-- /page content -->
 
     </div>
