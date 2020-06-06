@@ -1,9 +1,10 @@
 <?php
 // name of the folder where your projects
-$name_dir_public = "www";
+$name_dir_public = "./";
 
 $dir = $name_dir_public;
 
+$rutaurl = "";
 // Run the recursive function
 
 $response = scan($dir);
@@ -39,26 +40,35 @@ function scan($dir){
 			if(is_dir($dir . '/' . $f)) {
 
 				// The path is a folder
+				if($f == 'assets'){
+					
+				}else{
+					$files[] = array(
+						"name" => $f,
+						"type" => "folder",
+						"path" => $dir . '/' . $f,
+						"items" => scan($dir . '/' . $f), // Recursively get the contents of the folder
+						"date" => $date_es
+					);
+				}
 
-				$files[] = array(
-					"name" => $f,
-					"type" => "folder",
-					"path" => $dir . '/' . $f,
-					"items" => scan($dir . '/' . $f), // Recursively get the contents of the folder
-					"date" => $date_es
-				);
 			}
 
 			else {
 
-				// It is a file
-				$files[] = array(
-					"name" => $f,
-					"type" => "file",
-					"path" => $dir . '/' . $f,
-					"size" => filesize($dir . '/' . $f), // Gets the size of this file
-					"date" => $date_es
-				);
+				if($f == 'config.php' || $f == 'index.php'){
+					
+				}else{
+					$files[] = array(
+						"name" => $f,
+						"type" => "file",
+						"path" => $dir . '/' . $f,
+						"size" => filesize($dir . '/' . $f), // Gets the size of this file
+						"date" => $date_es
+					);
+				}
+
+
 			}
 		}
 
@@ -71,8 +81,8 @@ function scan($dir){
 header('Content-type: application/json');
 
 echo json_encode(array(
-	"name" => $name_dir_public,
+	"name" => $rutaurl,
 	"type" => "folder",
-	"path" => $dir,
+	"path" => $rutaurl,
 	"items" => $response
 ));

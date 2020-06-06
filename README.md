@@ -32,12 +32,6 @@
 
 #### INSTALACIÓN :
 
-- entrar en **"config.php"**  y buscar :
-```php
-$name_dir_public = "www"
-```
-pones el nombre del directorio donde pones tus proyectos. Por defecto algunos usan "www" , "public_html" o "htdocs".
-
 - copiar todos los archivos **"index.php, config.php, assets"**, en donde configuraste la ruta de tu apache (localhost/index.php).
 
 **Ejemplo: "/srv/http"**
